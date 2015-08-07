@@ -13,6 +13,12 @@ class Api::BoardsController < ApplicationController
     end
   end
 
+  def index
+    @boards = Item.all
+    render "index"
+  end
+
+
   def show
     @board = Board.find(params[:id])
   end
