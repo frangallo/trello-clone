@@ -7,7 +7,3 @@ window.Trello = {
     alert('Hello from Backbone!');
   }
 };
-
-$(document).ready(function(){
-  Trello.initialize();
-});

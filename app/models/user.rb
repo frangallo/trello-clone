@@ -1,8 +1,38 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  email           :string           not null
+#  password_digest :string           not null
+#  session_token   :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class User < ActiveRecord::Base
-  validates: :username, :session_token, :password_digest, presence: true
-  validates: :password, length:{minimum: 6, allow_nil: true}
-  attr_reader: :password
-  after_initialize: :ensure_session_token
+  validates :session_token, :password_digest, presence: true
+  validates :email, uniqueness: true
+  validates :password, length:{minimum: 6, allow_nil: true}
+  attr_reader :password
+  after_initialize :ensure_session_token
+
+  has_many(
+    :boards,
+    class_name: :Board,
+    foreign_key: :user_id,
+    primary_key: :id
+  )
+
+  has_many(
+    :memberships,
+    class_name: :BoardMember,
+    foreign_key: :user_id,
+    primary_key: id
+  )
+  
+  has_many(:watch_boards, through: :memberships, source: :board)
+
 
   def self.generate_session_token
     SecureRandom::urlsafe_base64(16)
