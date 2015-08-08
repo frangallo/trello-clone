@@ -28,9 +28,9 @@ class User < ActiveRecord::Base
     :memberships,
     class_name: :BoardMember,
     foreign_key: :user_id,
-    primary_key: id
+    primary_key: :id
   )
-  
+
   has_many(:watch_boards, through: :memberships, source: :board)
 
 

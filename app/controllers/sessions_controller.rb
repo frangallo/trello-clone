@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
                                     params[:user][:password])
     if user
       login_user!(user)
-      render json: user
+      redirect_to root_url
     else
       flash.now[:errors] = ["Invalid Credentials"]
       render :new
